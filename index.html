@@ -2,178 +2,32 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>🌍 Country Analysis</title>
+<title>Country Analysis</title>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<style>
-body {
-    margin: 0;
-    font-family: Arial;
-    background: linear-gradient(to right, #0f172a, #020617);
-    color: white;
-}
-
-/* 상단 */
-header {
-    text-align: center;
-    padding: 20px;
-    font-size: 28px;
-    font-weight: bold;
-    background: #1e293b;
-}
-
-/* 검색 */
-.search-box {
-    text-align: center;
-    margin: 20px;
-}
-
-input {
-    padding: 10px;
-    width: 300px;
-    border-radius: 10px;
-    border: none;
-    outline: none;
-    transition: 0.2s;
-}
-
-input:focus {
-    box-shadow: 0 0 10px rgba(59,130,246,0.6);
-}
-
-/* 버튼 */
-button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 10px;
-    background: #3b82f6;
-    color: white;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-button:hover {
-    background: #2563eb;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(59,130,246,0.4);
-}
-
-button:active {
-    transform: scale(0.95);
-}
-
-/* 지도 */
-#map {
-    height: 300px;
-    margin: 20px;
-    border-radius: 20px;
-}
-
-/* 레이아웃 */
-.container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    padding: 20px;
-}
-
-/* 카드 */
-.card {
-    background: #1e293b;
-    padding: 20px;
-    border-radius: 20px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    transition: all 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.5);
-}
-
-/* 텍스트 */
-h2 {
-    margin-top: 0;
-}
-
-/* 테이블 */
-table {
-    width: 100%;
-    text-align: center;
-    border-collapse: collapse;
-}
-
-td, th {
-    padding: 8px;
-}
-
-tr:nth-child(even) {
-    background: #334155;
-}
-
-/* 국기 */
-img.flag {
-    width: 60px;
-    border-radius: 10px;
-}
-
-/* QR */
-#qr {
-    width: 150px;
-}
-
-/* 반응형 */
-@media (max-width: 800px) {
-    .container {
-        grid-template-columns: 1fr;
-    }
-}
-</style>
 </head>
 
 <body>
 
-<header>🌍 국가 분석 시스템</header>
+<h2>🌍 Country Analysis</h2>
 
-<div class="search-box">
-    <input id="countries" placeholder="South Korea, Japan, USA">
-    <button onclick="search()">🔍 분석</button>
-</div>
+<input id="countries" placeholder="South Korea, Japan">
+<button onclick="search()">분석</button>
 
-<div id="map"></div>
+<div id="map" style="height:300px;"></div>
 
-<div class="container">
-
-<div class="card">
-<h2>📊 GDP 비교</h2>
 <canvas id="gdpChart"></canvas>
-</div>
-
-<div class="card">
-<h2>📈 인구 변화</h2>
 <canvas id="popChart"></canvas>
-</div>
 
-<div class="card">
-<h2>🏆 GDP 순위</h2>
 <table id="table"></table>
-</div>
 
-<div class="card">
-<h2>🌐 국가 정보</h2>
 <div id="info"></div>
-</div>
 
-<div class="card">
-<h2>📱 출처 QR</h2>
 <img id="qr">
-</div>
 
-</div>
-
+<!-- 🔥 이거 반드시 있어야 함 -->
 <script src="/static/script.js"></script>
 
 </body>
