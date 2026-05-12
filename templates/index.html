@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>국가 분석 시스템</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<h1>🌍 국가 분석 시스템</h1>
+
+<input id="countries" placeholder="South Korea,Japan,USA">
+<button onclick="search()">분석</button>
+
+<div id="map" style="height:300px;"></div>
+
+<h2>📊 GDP 비교</h2>
+<canvas id="barChart"></canvas>
+
+<h2>📈 인구 변화</h2>
+<canvas id="lineChart"></canvas>
+
+<h2>🏆 순위표</h2>
+<table border="1" id="table"></table>
+
+<h2>🌐 국가 정보</h2>
+<div id="info"></div>
+
+<h2>📱 출처 QR</h2>
+<img id="qr">
+
+<script src="/static/script.js"></script>
+
+</body>
+</html>
