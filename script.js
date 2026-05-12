@@ -1,18 +1,22 @@
 let gdpChart = null;
 let popChart = null;
 
-// 지도
+// 🌍 지도
 var map = L.map('map').setView([20,0],2);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
 map.on('click', async function(e){
-    const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${e.latlng.lat}&lon=${e.latlng.lng}`);
-    const data = await res.json();
-    document.getElementById("countries").value = data.address.country || "";
+    try {
+        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${e.latlng.lat}&lon=${e.latlng.lng}`);
+        const data = await res.json();
+        document.getElementById("countries").value = data.address.country || "";
+    } catch (e) {
+        console.log("지도 오류");
+    }
 });
 
-// 검색
+// 🔍 검색
 async function search(){
 
     let input = document.getElementById("countries").value;
@@ -28,7 +32,7 @@ async function search(){
     info(data);
 }
 
-// 그래프
+// 📊 그래프
 function draw(data){
 
     let labels = [];
@@ -71,7 +75,7 @@ function draw(data){
     });
 }
 
-// 순위
+// 🏆 순위표
 function table(data){
 
     let arr = [];
@@ -97,7 +101,7 @@ function table(data){
     document.getElementById("table").innerHTML = html;
 }
 
-// 정보
+// 🌐 정보
 function info(data){
 
     let html = "";
@@ -117,5 +121,4 @@ function info(data){
     });
 
     document.getElementById("info").innerHTML = html;
-}      "https://api.qrserver.com/v1/create-qr-code/?data=https://data.worldbank.org"
 }
