@@ -2,18 +2,13 @@ var map = L.map('map').setView([20,0],2)
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map)
 
-// 지도 클릭 → 국가 자동 입력
+// 지도 클릭
 map.on('click', async function(e){
-    const lat = e.latlng.lat
-    const lon = e.latlng.lng
-
-    const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
+    const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${e.latlng.lat}&lon=${e.latlng.lng}`)
     const data = await res.json()
-
     document.getElementById("countries").value = data.address.country
 })
 
-// 검색
 async function search(){
     let input = document.getElementById("countries").value
     let list = input.split(",")
@@ -26,44 +21,54 @@ async function search(){
     drawCharts(data)
     makeRanking(data)
     showInfo(data)
-
-    document.getElementById("qr").src =
-      "https://api.qrserver.com/v1/create-qr-code/?data=https://data.worldbank.org"
 }
 
-// 그래프
 function drawCharts(data){
-    const first = Object.keys(data)[0]
-    const labels = data[first].data.gdp.map(d => d.year)
+    const countries = Object.keys(data)
 
-    const gdpDatasets = Object.keys(data).map(country => ({
-        label: country,
-        data: data[country].data.gdp.map(d => d.value)
-    }))
+    let labels = []
+    let gdpDatasets = []
+    let popDatasets = []
 
-    new Chart(document.getElementById("barChart"), {
+    countries.forEach(country=>{
+        if(data[country].gdp){
+
+            let gdp = data[country].gdp
+            let pop = data[country].population
+
+            if(labels.length === 0){
+                labels = gdp.map(d => d.year)
+            }
+
+            gdpDatasets.push({
+                label: country,
+                data: gdp.map(d => d.value)
+            })
+
+            popDatasets.push({
+                label: country,
+                data: pop.map(d => d.value)
+            })
+        }
+    })
+
+    new Chart(document.getElementById("gdpChart"), {
         type: 'bar',
         data: { labels, datasets: gdpDatasets }
     })
 
-    const popDatasets = Object.keys(data).map(country => ({
-        label: country,
-        data: data[country].data.population.map(d => d.value)
-    }))
-
-    new Chart(document.getElementById("lineChart"), {
+    new Chart(document.getElementById("popChart"), {
         type: 'line',
         data: { labels, datasets: popDatasets }
     })
 }
 
-// 순위표
 function makeRanking(data){
     let ranking = []
 
     Object.keys(data).forEach(country=>{
-        if(data[country].data){
-            let latest = data[country].data.gdp[0].value
+        if(data[country].gdp){
+            let latest = data[country].gdp.slice(-1)[0].value
             ranking.push({country, gdp: latest})
         }
     })
@@ -79,26 +84,18 @@ function makeRanking(data){
     document.getElementById("table").innerHTML = html
 }
 
-// 국가 정보
 function showInfo(data){
     let html = ""
 
     Object.keys(data).forEach(country=>{
-        if(data[country].info){
-            let i = data[country].info
-
+        let i = data[country].info
+        if(i){
             html += `
-            <h3>${country}</h3>
+            <h3>${i.name}</h3>
             <img src="${i.flag}" width="100"><br>
-            공식명: ${i.official_name}<br>
             수도: ${i.capital}<br>
-            지역: ${i.region} (${i.subregion})<br>
             인구: ${i.population.toLocaleString()}<br>
             면적: ${i.area} km²<br>
-            언어: ${i.languages.join(", ")}<br>
-            통화: ${i.currency.join(", ")}<br>
-            시간대: ${i.timezones.join(", ")}<br>
-            <a href="${i.maps}" target="_blank">지도 보기</a>
             <hr>
             `
         }
