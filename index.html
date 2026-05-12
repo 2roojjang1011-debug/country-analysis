@@ -1,35 +1,69 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>국가 분석</title>
+    <meta charset="UTF-8">
+    <title>국가 분석 시스템</title>
 
+    <!-- 지도 -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
+    <!-- 차트 -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+        }
+
+        #map {
+            height: 300px;
+            margin: 20px;
+        }
+
+        canvas {
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        table {
+            margin: auto;
+        }
+    </style>
 </head>
 
 <body>
 
-<h1>🌍 국가 분석</h1>
+<h1>🌍 국가 분석 시스템</h1>
 
+<!-- 입력 -->
 <input id="countries" placeholder="South Korea,Japan,USA">
 <button onclick="search()">분석</button>
 
-<div id="map" style="height:300px;"></div>
+<!-- 지도 -->
+<div id="map"></div>
 
-<h2>GDP 비교</h2>
+<!-- 그래프 -->
+<h2>📊 GDP 비교</h2>
 <canvas id="gdpChart"></canvas>
 
-<h2>인구 변화</h2>
+<h2>📈 인구 변화</h2>
 <canvas id="popChart"></canvas>
 
-<h2>순위표</h2>
+<!-- 순위 -->
+<h2>🏆 GDP 순위</h2>
 <table border="1" id="table"></table>
 
-<h2>국가 정보</h2>
+<!-- 국가 정보 -->
+<h2>🌐 국가 정보</h2>
 <div id="info"></div>
 
+<!-- QR -->
+<h2>📱 출처 QR</h2>
+<img id="qr" width="150">
+
+<!-- JS 연결 -->
 <script src="/static/script.js"></script>
 
 </body>
